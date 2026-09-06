@@ -106,7 +106,13 @@ export function Stave({
     .join(", ");
 
   return (
-    <tr className="khoros-stave" data-variant={variant}>
+    // data-agent-key is what the arena's FLIP reorder measures against, so it
+    // must be a stable identity across a re-sort.
+    <tr
+      className="khoros-stave"
+      data-variant={variant}
+      data-agent-key={agentId.toString()}
+    >
       <th scope="row" className="khoros-stave-cell">
         <div className="khoros-stave-band">
           {/* Row 1 — name against the trust score */}
@@ -177,8 +183,6 @@ export function Stave({
           {trailing ? <div className="khoros-stave-trailing">{trailing}</div> : null}
         </div>
       </th>
-      {/* The agent id is carried for keyed reorder animation, not displayed. */}
-      <td hidden data-agent-id={agentId.toString()} />
     </tr>
   );
 }

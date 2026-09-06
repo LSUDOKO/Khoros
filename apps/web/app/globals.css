@@ -1,0 +1,422 @@
+/**
+ * App-level layout. Component styles live in @khoros/ui.
+ *
+ * Left-aligned throughout; centred text only in genuinely empty states.
+ * 12 columns, 72px max gutter, 1280px content maximum, 8px vertical rhythm.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Wire the next/font variables into the design tokens. */
+:root {
+  --font-display: var(--font-spectral), Georgia, "Times New Roman", serif;
+  --font-ui: var(--font-archivo), system-ui, -apple-system, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+.site-shell {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 calc(var(--rhythm) * 3);
+}
+
+.khoros-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--verdigris);
+  color: var(--paper);
+  padding: var(--rhythm) calc(var(--rhythm) * 2);
+  z-index: 100;
+}
+
+.khoros-skip:focus {
+  left: var(--rhythm);
+  top: var(--rhythm);
+}
+
+/* --------------------------------------------------------------------------
+   Header and footer
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--rhythm) * 3);
+  min-height: 64px;
+  flex-wrap: wrap;
+}
+
+.site-mark {
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.site-nav {
+  display: flex;
+  gap: calc(var(--rhythm) * 3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-label);
+}
+
+.site-nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: calc(var(--rhythm) * 8);
+  padding: calc(var(--rhythm) * 4) 0;
+}
+
+/* --------------------------------------------------------------------------
+   Front door — the question high and large, alone, then the chips.
+   No hero image, no stat row, no gradient.
+   -------------------------------------------------------------------------- */
+
+.front-door {
+  padding: calc(var(--rhythm) * 10) 0 calc(var(--rhythm) * 6);
+}
+
+.front-question {
+  margin: 0 0 calc(var(--rhythm) * 4) 0;
+  max-width: 20ch;
+}
+
+.intent-form {
+  display: flex;
+  gap: var(--rhythm);
+  max-width: 760px;
+  flex-wrap: wrap;
+}
+
+.intent-input {
+  flex: 1 1 420px;
+  min-width: 0;
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  padding: calc(var(--rhythm) * 1.75) calc(var(--rhythm) * 2);
+  background: var(--paper-lift);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+
+.intent-input::placeholder {
+  color: var(--ink-soft);
+}
+
+.btn-primary {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  padding: calc(var(--rhythm) * 1.75) calc(var(--rhythm) * 3);
+  min-height: 44px;
+  background: var(--verdigris);
+  color: var(--paper);
+  border: 1px solid var(--verdigris);
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+.btn-secondary {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  padding: calc(var(--rhythm) * 1.25) calc(var(--rhythm) * 2);
+  min-height: 44px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+}
+
+.btn-danger {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  padding: calc(var(--rhythm) * 1.25) calc(var(--rhythm) * 2);
+  min-height: 44px;
+  background: transparent;
+  color: var(--madder);
+  border: 1px solid var(--madder);
+  cursor: pointer;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rhythm);
+  margin-top: calc(var(--rhythm) * 3);
+}
+
+/* --------------------------------------------------------------------------
+   Sections
+   -------------------------------------------------------------------------- */
+
+.section {
+  padding: calc(var(--rhythm) * 6) 0;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--rhythm) * 2);
+  margin-bottom: calc(var(--rhythm) * 3);
+  flex-wrap: wrap;
+}
+
+.section-head h2,
+.section-head h1 {
+  margin: 0;
+}
+
+.page-head {
+  padding: calc(var(--rhythm) * 6) 0 calc(var(--rhythm) * 2);
+}
+
+.page-head h1 {
+  margin: 0 0 var(--rhythm) 0;
+}
+
+.lede {
+  margin: 0;
+  max-width: var(--prose-max);
+  color: var(--ink-soft);
+}
+
+/*
+  Arena index: identical height allocation per category. A category with fewer
+  agents shows an empty-state invitation at the same height rather than
+  collapsing — visual equality is part of demonstrating category equality.
+*/
+.arena-section {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.arena-section > .khoros-arena,
+.arena-section > .khoros-empty {
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Agent profile — 62/38 with a sticky right column, single column below 900px
+   -------------------------------------------------------------------------- */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 62fr 38fr;
+  gap: calc(var(--rhythm) * 6);
+  align-items: start;
+  padding-bottom: calc(var(--rhythm) * 6);
+}
+
+.profile-aside {
+  position: sticky;
+  top: calc(var(--rhythm) * 3);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 3);
+}
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 5);
+}
+
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* On mobile "is this thing real" comes before "how did it perform". */
+  .profile-aside {
+    position: static;
+    order: -1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hire flow — four panels stacked on one page, no wizard
+   -------------------------------------------------------------------------- */
+
+.hire-stack {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 3);
+  max-width: 860px;
+  padding-bottom: calc(var(--rhythm) * 6);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 0.75);
+  margin-bottom: calc(var(--rhythm) * 2.5);
+}
+
+.field label {
+  font-size: var(--text-label);
+  color: var(--ink-soft);
+}
+
+.field input,
+.field select {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  padding: calc(var(--rhythm) * 1.25) calc(var(--rhythm) * 1.5);
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  min-height: 44px;
+}
+
+.field-hint {
+  font-size: var(--text-label);
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: calc(var(--rhythm) * 2);
+}
+
+/* --------------------------------------------------------------------------
+   Prose surfaces (/verify, methodology)
+   -------------------------------------------------------------------------- */
+
+.prose-page {
+  max-width: var(--prose-max);
+  padding-bottom: calc(var(--rhythm) * 8);
+}
+
+.prose-page h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  margin: calc(var(--rhythm) * 5) 0 calc(var(--rhythm) * 1.5);
+}
+
+.prose-page p,
+.prose-page li {
+  line-height: var(--text-body-lh);
+}
+
+.formula {
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  background: var(--paper-lift);
+  border-left: 2px solid var(--brass);
+  padding: calc(var(--rhythm) * 2);
+  margin: calc(var(--rhythm) * 2) 0;
+  overflow-x: auto;
+}
+
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-data);
+  font-variant-numeric: tabular-nums;
+  margin: calc(var(--rhythm) * 2) 0;
+}
+
+.param-table th,
+.param-table td {
+  text-align: left;
+  padding: var(--rhythm) var(--rhythm) var(--rhythm) 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.param-table th {
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: var(--text-label);
+}
+
+/* Wide content scrolls inside its own container; the page never scrolls
+   horizontally. */
+.scroll-x {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Notices
+   -------------------------------------------------------------------------- */
+
+.notice {
+  border-left: 2px solid var(--rule);
+  padding: calc(var(--rhythm) * 1.5) calc(var(--rhythm) * 2);
+  background: var(--paper-lift);
+  margin: calc(var(--rhythm) * 2) 0;
+}
+
+.notice[data-tone="risk"] {
+  border-left-color: var(--madder);
+}
+
+.notice[data-tone="verified"] {
+  border-left-color: var(--brass);
+}
+
+.notice p {
+  margin: 0;
+  max-width: var(--prose-max);
+}
+
+@media (max-width: 720px) {
+  .site-shell {
+    padding: 0 calc(var(--rhythm) * 2);
+  }
+
+  .front-door {
+    padding: calc(var(--rhythm) * 6) 0 calc(var(--rhythm) * 4);
+  }
+
+  .front-question {
+    max-width: none;
+  }
+}
