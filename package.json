@@ -1,0 +1,25 @@
+{
+  "name": "khoros",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The canonical front door for AI agents on BNB Smart Chain",
+  "packageManager": "pnpm@10.19.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "migrate": "pnpm --filter @khoros/indexer migrate",
+    "bench": "pnpm --filter @khoros/bench bench"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
