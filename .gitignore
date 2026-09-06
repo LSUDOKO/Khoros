@@ -38,3 +38,6 @@ coverage/
 
 # lockfile is committed; pnpm virtual store is not
 node_modules/.pnpm/
+
+# foundry deps (vendored via git clone, not a submodule)
+contracts/lib/
