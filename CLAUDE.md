@@ -163,12 +163,12 @@ strategies get deterministic tests against recorded chain state.
 
 Update this section as you go. It is how a fresh session knows where things stand.
 
-- [ ] Phase 0 — repo scaffold, tokens, CI
-- [ ] Phase 1 — indexer + trust scoring
-- [ ] Phase 2 — marketplace UI, four categories
-- [ ] Phase 3 — Altana sessions + control center
+- [x] Phase 0 — repo scaffold, tokens, CI
+- [~] Phase 1 — indexer + trust scoring *(scoring engine + schema done; live ingest pending 8004scan key)*
+- [~] Phase 2 — marketplace UI, four categories *(front door, arena, prune toggle, /verify done; profile + hire pending)*
+- [~] Phase 3 — Altana sessions + control center *(SDK verified, grant/revoke written; blocked on faucet funding)*
 - [ ] Phase 4 — agent runtimes
-- [ ] Phase 5 — PACE verifier + executor
+- [~] Phase 5 — PACE verifier + executor *(contract + 19 tests done; verifier service pending)*
 - [ ] Phase 6 — ERC-8183 hiring + coordinator
 - [ ] Phase 7 — benchmark harness
 - [ ] Phase 8 — polish, deploy, submission

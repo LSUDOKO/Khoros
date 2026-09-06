@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  typecheck-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Strict TypeScript across every package. CLAUDE.md: no `any` in
+      # committed code.
+      - run: pnpm typecheck
+
+      - run: pnpm test
+
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+
+      # forge-std is vendored by clone rather than as a submodule.
+      - name: Fetch forge-std
+        run: git clone --depth 1 https://github.com/foundry-rs/forge-std.git contracts/lib/forge-std
+
+      # The revert tests matter more than the happy path — they are the
+      # evidence the safety layer cannot be bypassed.
+      - name: Run Foundry tests
+        working-directory: contracts
+        run: forge test -vv
