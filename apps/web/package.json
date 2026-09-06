@@ -10,14 +10,16 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@altananetwork/sdk": "0.9.0",
+    "@bnbagent/sdk": "0.5.5",
     "@khoros/core": "workspace:*",
     "@khoros/scoring": "workspace:*",
     "@khoros/ui": "workspace:*",
     "next": "^14.2.20",
+    "pg": "^8.13.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "viem": "^2.21.55",
-    "pg": "^8.13.1"
+    "viem": "^2.21.55"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
