@@ -1,0 +1,443 @@
+/**
+ * Component styles. From docs/08-DESIGN_SYSTEM.md.
+ *
+ * Density comes from rules, not from boxes: no card borders, no shadows, no
+ * border radius on the stave band. Hover raises to paper-lift and thickens the
+ * stave line — that is the whole hover treatment.
+ */
+
+/* --------------------------------------------------------------------------
+   Utility
+   -------------------------------------------------------------------------- */
+
+.khoros-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.khoros-brass {
+  color: var(--brass);
+}
+
+.khoros-madder {
+  color: var(--madder);
+}
+
+.khoros-verdigris {
+  color: var(--verdigris);
+}
+
+/* --------------------------------------------------------------------------
+   Arena table — a real semantic table styled as staves
+   -------------------------------------------------------------------------- */
+
+.khoros-arena {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Column headers exist for screen readers and are not painted. */
+.khoros-arena-head {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   The stave
+   -------------------------------------------------------------------------- */
+
+.khoros-stave {
+  border-top: 1px solid var(--rule);
+}
+
+.khoros-stave:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.khoros-stave-cell {
+  padding: 0;
+  font-weight: inherit;
+  text-align: left;
+}
+
+.khoros-stave-band {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 0.75);
+  padding: calc(var(--rhythm) * 2) calc(var(--rhythm) * 1.5);
+  background: transparent;
+  transition: background-color 120ms linear;
+}
+
+.khoros-stave-band:hover,
+.khoros-stave-band:focus-within {
+  background: var(--paper-lift);
+}
+
+.khoros-stave-band:hover .khoros-sparkline-axis,
+.khoros-stave-band:focus-within .khoros-sparkline-axis {
+  stroke-width: 2;
+}
+
+/* Row 1 — name against the trust score */
+.khoros-stave-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--rhythm);
+}
+
+.khoros-stave-name {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.khoros-stave-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Row 2 — provenance */
+.khoros-stave-provenance {
+  margin: 0;
+}
+
+/* Row 3 — the stave line */
+.khoros-stave-line {
+  width: 100%;
+}
+
+.khoros-sparkline {
+  display: block;
+  width: 100%;
+  height: 28px;
+  overflow: visible;
+}
+
+.khoros-sparkline-axis {
+  stroke: var(--rule);
+  stroke-width: 1;
+  transition: stroke-width 120ms linear;
+}
+
+.khoros-sparkline-path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* Losses in madder. Never green for gains — stave position carries direction. */
+.khoros-sparkline-path[data-negative="true"] {
+  stroke: var(--madder);
+}
+
+/* Row 4 — the six slots, evenly distributed, fixed order */
+.khoros-stave-metrics {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--rhythm);
+  margin: 0;
+}
+
+.khoros-metric {
+  display: flex;
+  flex-direction: column-reverse; /* value reads first, label beneath */
+  gap: 2px;
+  min-width: 0;
+}
+
+.khoros-metric dt {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.khoros-metric dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+/* Negative values in madder, positive in plain ink — not green. */
+.khoros-metric dd[data-negative="true"] {
+  color: var(--madder);
+}
+
+.khoros-stave-sample {
+  margin: 0;
+  font-style: italic;
+}
+
+.khoros-stave-trailing {
+  display: flex;
+  gap: var(--rhythm);
+}
+
+/* --------------------------------------------------------------------------
+   TrustBar
+   -------------------------------------------------------------------------- */
+
+.khoros-trustbar {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--rhythm) * 0.75);
+  white-space: nowrap;
+}
+
+.khoros-trustbar-value {
+  color: var(--ink);
+}
+
+.khoros-trustbar-track {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.khoros-trustbar-seg {
+  width: 4px;
+  height: 14px;
+  background: var(--rule);
+}
+
+.khoros-trustbar-seg[data-state="filled"] {
+  background: var(--verdigris);
+}
+
+/* The ghost is the confidence interval: a wide interval leaves a long tail. */
+.khoros-trustbar-seg[data-state="ghost"] {
+  background: var(--verdigris);
+  opacity: 0.25;
+}
+
+/* --------------------------------------------------------------------------
+   PruneToggle
+   -------------------------------------------------------------------------- */
+
+.khoros-prune {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm);
+}
+
+.khoros-prune-control {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  width: fit-content;
+}
+
+.khoros-prune-option {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  padding: calc(var(--rhythm) * 0.75) calc(var(--rhythm) * 1.5);
+  min-height: 44px; /* touch target floor */
+  background: transparent;
+  color: var(--ink-soft);
+  border: 0;
+  cursor: pointer;
+}
+
+.khoros-prune-option[data-active="true"] {
+  background: var(--verdigris);
+  color: var(--paper);
+}
+
+.khoros-prune-copy {
+  margin: 0;
+  max-width: var(--prose-max);
+}
+
+/* --------------------------------------------------------------------------
+   Reorder choreography — the one orchestrated moment in the interface
+   -------------------------------------------------------------------------- */
+
+.khoros-arena[data-reordering="true"] .khoros-stave {
+  transition: transform var(--reorder-duration) var(--reorder-ease);
+}
+
+/* Agents that fall are briefly marked, so a judge sees WHICH ones fell. */
+.khoros-stave[data-fell="true"] .khoros-stave-band {
+  box-shadow: inset 3px 0 0 var(--madder);
+}
+
+/* --------------------------------------------------------------------------
+   VerifyLink
+   -------------------------------------------------------------------------- */
+
+.khoros-verify-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--verdigris);
+  font-variant-numeric: tabular-nums;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.khoros-verify-icon {
+  width: 9px;
+  height: 9px;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Panel
+   -------------------------------------------------------------------------- */
+
+.khoros-panel {
+  background: var(--paper-lift);
+  border: 1px solid var(--rule);
+  padding: calc(var(--rhythm) * 3);
+}
+
+.khoros-panel-title {
+  margin: 0 0 calc(var(--rhythm) * 2) 0;
+}
+
+.khoros-panel[data-emphasis="true"] {
+  border-color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Permissions
+   -------------------------------------------------------------------------- */
+
+.khoros-permission-lines,
+.khoros-permission-denied {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm);
+}
+
+.khoros-permission-denied {
+  margin-top: var(--rhythm);
+  padding-top: var(--rhythm);
+  border-top: 1px solid var(--rule);
+}
+
+.khoros-permission-line {
+  max-width: var(--prose-max);
+}
+
+/* --------------------------------------------------------------------------
+   Chip
+   -------------------------------------------------------------------------- */
+
+.khoros-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: calc(var(--rhythm) * 1.25) calc(var(--rhythm) * 2);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+}
+
+.khoros-chip:hover {
+  background: var(--paper-lift);
+  border-color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Telemetry feed — blocked and executed at equal weight
+   -------------------------------------------------------------------------- */
+
+.khoros-feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.khoros-feed-row {
+  display: flex;
+  gap: calc(var(--rhythm) * 1.5);
+  padding: calc(var(--rhythm) * 1.25) 0;
+  border-top: 1px solid var(--rule);
+  align-items: baseline;
+}
+
+.khoros-feed-time {
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.khoros-feed-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--rhythm) * 0.75);
+  align-items: baseline;
+  min-width: 0;
+}
+
+.khoros-feed-verb {
+  font-size: var(--text-data);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Empty states — invitations, not apologies
+   -------------------------------------------------------------------------- */
+
+.khoros-empty {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 2);
+  padding: calc(var(--rhythm) * 4) 0;
+  color: var(--ink-soft);
+}
+
+.khoros-freshness[data-stale="true"] {
+  color: var(--madder);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — down to 320px
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  /* Six columns cannot survive 320px. Two rows of three keeps every slot
+     visible and in the same order rather than hiding metrics. */
+  .khoros-stave-metrics {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: calc(var(--rhythm) * 1.5);
+  }
+
+  .khoros-stave-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--rhythm) * 0.5);
+  }
+
+  :root {
+    --text-display: 2.25rem;
+    --text-title: 1.625rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .khoros-stave-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
