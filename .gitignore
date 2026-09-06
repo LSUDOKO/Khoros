@@ -35,3 +35,6 @@ pnpm-debug.log*
 
 # test output
 coverage/
+
+# lockfile is committed; pnpm virtual store is not
+node_modules/.pnpm/
