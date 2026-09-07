@@ -164,13 +164,13 @@ strategies get deterministic tests against recorded chain state.
 Update this section as you go. It is how a fresh session knows where things stand.
 
 - [x] Phase 0 — repo scaffold, tokens, CI
-- [~] Phase 1 — indexer + trust scoring *(scoring engine, schema, classifier and registry reader done; live ingest cycle + 8004scan key pending)*
-- [x] Phase 2 — marketplace UI, four categories *(front door, arena, prune choreography, profile, hire, /verify — equal depth enforced by 43 tests)*
-- [~] Phase 3 — Altana sessions + control center *(SDK verified against live testnet, grant/revoke/dashboard/revoke UI done; blocked on faucet funding)*
+- [x] Phase 1 — indexer + trust scoring *(full cycle verified against real Postgres and the live BSC registry; 8004scan Pro key not obtained)*
+- [x] Phase 2 — marketplace UI, four categories *(all 16 routes verified in a browser; prune reorder demonstrated in all four arenas)*
+- [~] Phase 3 — Altana sessions + control center *(SDK verified against live testnet, all four categories build valid scopes; live grant blocked on faucet funding)*
 - [x] Phase 4 — agent runtimes *(harness + all four strategies, 42 tests; live execution blocked on funding)*
-- [~] Phase 5 — PACE verifier + executor *(contract 23 tests, policy evaluator 49 tests, digest cross-checked; fork simulation + deploy pending)*
-- [ ] Phase 6 — ERC-8183 hiring + coordinator
+- [~] Phase 5 — PACE verifier + executor *(contract 23 tests, evaluator 49 tests, digest cross-checked; fork simulation + deploy pending)*
+- [x] Phase 6 — ERC-8183 hiring + coordinator *(hire path + shared-capital constraint, 23 tests)*
 - [~] Phase 7 — benchmark harness *(types, recorder CLI, /benchmark surface done; no runs recorded yet)*
-- [~] Phase 8 — polish, deploy, submission *(README + limitations, honesty audit clean; deploy pending)*
+- [~] Phase 8 — polish, deploy, submission *(README, limitations, honesty audit, a11y verified; deploy pending)*
 
 See `docs/10-BUILD_PLAN.md` for what each phase means and when it is done.

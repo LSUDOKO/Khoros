@@ -134,14 +134,18 @@ Nothing here asks to be taken on trust.
 | Agents cannot skip the safety check | `pnpm --filter @khoros/core test` — the harness test asserts the executor is never called on a rejection |
 | The executor rejects bad attestations | `cd contracts && forge test` — 23 tests, mostly revert paths |
 | The verifier and the contract agree | The PDR digest is pinned to the same literal in `apps/verifier/src/sign.test.ts` and `contracts/test/CrossCheckDigest.t.sol` |
-| Contract addresses are real | `pnpm --filter @khoros/web verify:addresses` — `eth_getCode` against every one |
+| Contract addresses are real | `pnpm --filter @khoros/web verify:addresses` — `eth_getCode` against every one, on both chains |
+| The prune toggle really re-ranks | `node apps/web/e2e/prune-reorder.mjs` against a running app — asserts the order inverts in all four arenas |
+| The app has no runtime errors | `node apps/web/e2e/full-sweep.mjs` — all 16 routes, including four not-found cases |
 | Scoring parameters | `/verify` renders them directly from the scoring engine, so the page cannot drift from the values in use |
 | The palette meets its contrast floor | `pnpm --filter @khoros/ui test` — 24 assertions, every accent measured against its ground in both themes |
 | Every category can actually be hired | `pnpm --filter @khoros/web test` — asserts all four build a valid session scope on both chains, and that none is ever granted transfer or borrow |
 | Four categories really are equal | `pnpm --filter @khoros/core test` — 43 assertions compare prose depth, metric slots, scope manifests, constraints and knob counts across all four |
 | What the registry actually contains | `apps/indexer/src/sources/REGISTRY_FINDINGS.md` — measured, with the method to reproduce it |
 
-**259 tests** — 236 TypeScript, 23 Solidity. Strict TypeScript, no `any`.
+**299 tests** — 276 TypeScript, 23 Solidity — plus five end-to-end suites that
+drive the running app in a real browser (`apps/web/e2e/`). Strict TypeScript,
+no `any`.
 
 ---
 
@@ -171,9 +175,19 @@ address-attribution heuristics we do not have. `/verify` says this on the page
 rather than only in this file. Funding provenance contributes zero when funding
 data is unavailable, rather than defaulting to a clean score.
 
-**The indexer does not ingest yet.** The scoring engine, schema and ranking view
-are complete and tested, but live 8004scan ingest is not wired, so arenas are
-empty without a seeded database. The 8004scan Pro API key has not been obtained.
+**8004scan Pro is not integrated.** The indexer ingests directly from the
+ERC-8004 registry contract on BSC mainnet, which docs/10 names as the intended
+fallback and cross-check, and that path is verified end to end. The 8004scan Pro
+API — which would add reputation and validation records we currently do not
+read — needs a key that has not been obtained.
+
+**The live registry has no DeFi agents.** Measured across 150 ids spanning the
+whole id space: 95% resolve to a registration document, 43% have a substantive
+description, and zero classify into any of the four categories. It is dominated
+by name-spam and bulk duplicates. See
+`apps/indexer/src/sources/REGISTRY_FINDINGS.md` for the method. The curated seed
+set and the optional demonstration fixture exist for this reason, and both are
+labelled as such in the UI.
 
 **PolicyAttestedExecutor is not deployed.** It is written and tested but not yet
 on testnet, and the runtime currently enforces PACE as a pre-execution gate. The
