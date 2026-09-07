@@ -528,3 +528,46 @@ fieldset.field legend {
   text-align: right;
   margin: 0;
 }
+
+/* --------------------------------------------------------------------------
+   Benchmark
+   -------------------------------------------------------------------------- */
+
+.bench-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: calc(var(--rhythm) * 3);
+}
+
+.bench-bars {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 2);
+  margin: calc(var(--rhythm) * 3) 0;
+}
+
+.bench-branch-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--rhythm);
+  margin-bottom: 4px;
+}
+
+/*
+  Bars are drawn at true proportion — no minimum width. A very short bar means
+  the branch really was that much faster.
+*/
+.bench-bar {
+  height: 10px;
+  background: var(--ink-soft);
+  min-width: 1px;
+}
+
+.bench-bar[data-branch="agent"] {
+  background: var(--verdigris);
+}
+
+.bench-bar[data-branch="manual"] {
+  background: var(--madder);
+}

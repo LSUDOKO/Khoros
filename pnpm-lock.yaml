@@ -45,6 +45,9 @@ importers:
       '@bnbagent/sdk':
         specifier: 0.5.5
         version: 0.5.5(@altananetwork/sdk@0.9.0(@types/react@18.3.31)(@wagmi/core@3.6.5(@types/react@18.3.31)(react@18.3.1)(typescript@5.9.3)(viem@2.56.3(typescript@5.9.3)(zod@4.5.4)))(react@18.3.1)(typescript@5.9.3)(zod@4.5.4))(typescript@5.9.3)(zod@4.5.4)
+      '@khoros/bench':
+        specifier: workspace:*
+        version: link:../../bench
       '@khoros/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -82,6 +85,12 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.5
         version: 18.3.7(@types/react@18.3.31)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  bench:
+    devDependencies:
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
