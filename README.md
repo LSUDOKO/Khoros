@@ -116,8 +116,10 @@ Nothing here asks to be taken on trust.
 | The verifier and the contract agree | The PDR digest is pinned to the same literal in `apps/verifier/src/sign.test.ts` and `contracts/test/CrossCheckDigest.t.sol` |
 | Contract addresses are real | `pnpm --filter @khoros/web verify:addresses` — `eth_getCode` against every one |
 | Scoring parameters | `/verify` renders them directly from the scoring engine, so the page cannot drift from the values in use |
+| Four categories really are equal | `pnpm --filter @khoros/core test` — 43 assertions compare prose depth, metric slots, scope manifests, constraints and knob counts across all four |
+| What the registry actually contains | `apps/indexer/src/sources/REGISTRY_FINDINGS.md` — measured, with the method to reproduce it |
 
-**181 tests** — 158 TypeScript, 23 Solidity. Strict TypeScript, no `any`.
+**236 tests** — 213 TypeScript, 23 Solidity. Strict TypeScript, no `any`.
 
 ---
 
