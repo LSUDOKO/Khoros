@@ -164,13 +164,13 @@ strategies get deterministic tests against recorded chain state.
 Update this section as you go. It is how a fresh session knows where things stand.
 
 - [x] Phase 0 — repo scaffold, tokens, CI
-- [~] Phase 1 — indexer + trust scoring *(scoring engine + schema done; live ingest pending 8004scan key)*
-- [~] Phase 2 — marketplace UI, four categories *(front door, arena, prune toggle, /verify done; profile + hire pending)*
-- [~] Phase 3 — Altana sessions + control center *(SDK verified, grant/revoke written; blocked on faucet funding)*
-- [ ] Phase 4 — agent runtimes
-- [~] Phase 5 — PACE verifier + executor *(contract + 19 tests done; verifier service pending)*
+- [~] Phase 1 — indexer + trust scoring *(scoring engine, schema, classifier and registry reader done; live ingest cycle + 8004scan key pending)*
+- [x] Phase 2 — marketplace UI, four categories *(front door, arena, prune choreography, profile, hire, /verify — equal depth enforced by 43 tests)*
+- [~] Phase 3 — Altana sessions + control center *(SDK verified against live testnet, grant/revoke/dashboard/revoke UI done; blocked on faucet funding)*
+- [x] Phase 4 — agent runtimes *(harness + all four strategies, 42 tests; live execution blocked on funding)*
+- [~] Phase 5 — PACE verifier + executor *(contract 23 tests, policy evaluator 49 tests, digest cross-checked; fork simulation + deploy pending)*
 - [ ] Phase 6 — ERC-8183 hiring + coordinator
-- [ ] Phase 7 — benchmark harness
-- [ ] Phase 8 — polish, deploy, submission
+- [~] Phase 7 — benchmark harness *(types, recorder CLI, /benchmark surface done; no runs recorded yet)*
+- [~] Phase 8 — polish, deploy, submission *(README + limitations, honesty audit clean; deploy pending)*
 
 See `docs/10-BUILD_PLAN.md` for what each phase means and when it is done.
