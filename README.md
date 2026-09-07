@@ -98,9 +98,29 @@ pnpm --filter @khoros/web dev
 ```
 
 The app runs without a database and renders designed empty states rather than
-placeholder data. For real rankings, set `DATABASE_URL` and run `pnpm migrate`.
-See `.env.example` for the full list and `TESTNET_SETUP.md` for the two steps
-that need a human.
+placeholder data. For real rankings:
+
+```bash
+export DATABASE_URL=postgres://...
+pnpm migrate                                    # schema + ranking view
+pnpm --filter @khoros/indexer cycle --registry 40   # real ERC-8004 agents from BSC
+```
+
+That reads live agents from the ERC-8004 registry on BSC mainnet, classifies
+them, scores them, and refreshes the ranking view.
+
+**Optional demonstration fixture.** The live registry has no agents in the four
+DeFi categories (see Limitations), so the prune toggle has nothing to re-rank
+out of the box. `pnpm --filter @khoros/indexer demo-fixture` writes eight
+clearly-labelled demonstration agents with *synthetic* reviews, built so a
+wash-rated agent tops the raw ranking and collapses under pruning. Every one is
+tagged "Curated listing" in the UI and its note says it is a fixture. It
+invents no performance figure, ROI or transaction hash — only reviews, which
+are the input whose handling it exists to demonstrate. It is never loaded
+automatically.
+
+See `.env.example` for the full variable list and `TESTNET_SETUP.md` for the
+steps that need a human.
 
 ---
 
@@ -116,6 +136,8 @@ Nothing here asks to be taken on trust.
 | The verifier and the contract agree | The PDR digest is pinned to the same literal in `apps/verifier/src/sign.test.ts` and `contracts/test/CrossCheckDigest.t.sol` |
 | Contract addresses are real | `pnpm --filter @khoros/web verify:addresses` — `eth_getCode` against every one |
 | Scoring parameters | `/verify` renders them directly from the scoring engine, so the page cannot drift from the values in use |
+| The palette meets its contrast floor | `pnpm --filter @khoros/ui test` — 24 assertions, every accent measured against its ground in both themes |
+| Every category can actually be hired | `pnpm --filter @khoros/web test` — asserts all four build a valid session scope on both chains, and that none is ever granted transfer or borrow |
 | Four categories really are equal | `pnpm --filter @khoros/core test` — 43 assertions compare prose depth, metric slots, scope manifests, constraints and knob counts across all four |
 | What the registry actually contains | `apps/indexer/src/sources/REGISTRY_FINDINGS.md` — measured, with the method to reproduce it |
 

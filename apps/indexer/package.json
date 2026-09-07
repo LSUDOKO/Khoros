@@ -7,7 +7,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "migrate": "node src/migrate.mjs",
-    "cycle": "node --experimental-strip-types src/run-cycle.mjs"
+    "cycle": "node --experimental-strip-types src/run-cycle.mjs",
+    "demo-fixture": "node src/load-fixture.mjs"
   },
   "dependencies": {
     "@khoros/core": "workspace:*",
