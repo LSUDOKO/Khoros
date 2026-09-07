@@ -17,11 +17,12 @@ import { categoryDefinition } from "@khoros/core";
 import { Panel, PermissionList } from "@khoros/ui";
 import { useMemo, useState } from "react";
 
-import { buildSessionScope } from "@/lib/altana/sessions";
+import { buildSessionScope, scopeOmissions } from "@/lib/altana/sessions";
 import {
   EXECUTION_TOKEN,
   EXECUTION_TOKEN_DECIMALS,
   TESTNET_TARGETS,
+  TESTNET_UNAVAILABLE,
   TOKEN_META,
 } from "@/lib/chain/addresses";
 
@@ -80,6 +81,7 @@ export function HireForm({
         scope: buildSessionScope({
           category,
           targets: TESTNET_TARGETS,
+          unavailable: TESTNET_UNAVAILABLE,
           spendToken: EXECUTION_TOKEN,
           spendLimit: toBaseUnits(dailyCap, EXECUTION_TOKEN_DECIMALS),
           spendPeriodSeconds: 86_400,
@@ -203,6 +205,15 @@ export function HireForm({
               tokens={TOKEN_META}
               denied={definition.scope.denied}
             />
+            {/* A protocol this category normally uses that is not deployed
+                on testnet is named, so its absence from the list above is
+                explained rather than looking like an oversight. */}
+            {scopeOmissions(scopeResult.scope).map((o) => (
+              <p key={o.key} className="khoros-label" style={{ marginTop: 12 }}>
+                {o.reason}
+              </p>
+            ))}
+
             <p className="khoros-label" style={{ marginTop: 16 }}>
               These sentences are generated from the exact permission object that
               gets registered on-chain, so they cannot describe something

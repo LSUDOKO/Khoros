@@ -13,6 +13,7 @@
   "dependencies": {
     "@altananetwork/sdk": "0.9.0",
     "@bnbagent/sdk": "0.5.5",
+    "@khoros/bench": "workspace:*",
     "@khoros/core": "workspace:*",
     "@khoros/scoring": "workspace:*",
     "@khoros/ui": "workspace:*",
@@ -20,14 +21,14 @@
     "pg": "^8.13.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "viem": "^2.21.55",
-    "@khoros/bench": "workspace:*"
+    "viem": "^2.21.55"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@types/pg": "^8.11.10",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
+    "playwright": "1.49.1",
     "typescript": "^5.7.2"
   }
 }

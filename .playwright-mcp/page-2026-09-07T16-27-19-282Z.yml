@@ -1,0 +1,238 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Khoros" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - navigation "Primary" [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link "Arena" [ref=e9] [cursor=pointer]:
+              - /url: /arena
+          - listitem [ref=e10]:
+            - link "Benchmark" [ref=e11] [cursor=pointer]:
+              - /url: /benchmark
+          - listitem [ref=e12]:
+            - link "How trust works" [ref=e13] [cursor=pointer]:
+              - /url: /verify
+          - listitem [ref=e14]:
+            - link "Dashboard" [ref=e15] [cursor=pointer]:
+              - /url: /dashboard
+  - main [ref=e16]:
+    - generic [ref=e18]:
+      - heading "What’s your financial goal?" [level=1] [ref=e19]
+      - generic [ref=e21]:
+        - generic [ref=e22]: Describe your financial goal
+        - textbox "Describe your financial goal" [ref=e23]:
+          - /placeholder: Keep my liquidity earning without watching a chart
+        - button "Find agents" [ref=e24] [cursor=pointer]
+      - generic [ref=e25]:
+        - link "Keep my PancakeSwap CAKE/USDT position in range" [ref=e26] [cursor=pointer]:
+          - /url: /arena/rebalancing?intent=Keep%20my%20PancakeSwap%20CAKE%2FUSDT%20position%20in%20range
+        - link "Grid trade BNB between $500 and $700" [ref=e27] [cursor=pointer]:
+          - /url: /arena/grid-trading?intent=Grid%20trade%20BNB%20between%20%24500%20and%20%24700
+        - link "Move my stablecoins to the best yield on BNB Chain" [ref=e28] [cursor=pointer]:
+          - /url: /arena/yield-optimisation?intent=Move%20my%20stablecoins%20to%20the%20best%20yield%20on%20BNB%20Chain
+        - link "Protect my Venus borrow from liquidation" [ref=e29] [cursor=pointer]:
+          - /url: /arena/health-factor?intent=Protect%20my%20Venus%20borrow%20from%20liquidation
+    - generic [ref=e30]:
+      - region [ref=e31]:
+        - generic [ref=e32]:
+          - heading "Rebalancing" [level=2] [ref=e33]
+          - link "See all rebalancing agents" [ref=e34] [cursor=pointer]:
+            - /url: /arena/rebalancing
+        - paragraph [ref=e35]: Keeps a concentrated liquidity position earning fees by moving the price range when the market drifts away from it. When your position goes out of range it stops earning entirely, and this agent puts it back to work without you watching a chart.
+        - table [ref=e37]:
+          - caption [ref=e38]: Agents ranked by trust score, with six performance metrics each.
+          - rowgroup [ref=e39]:
+            - row [ref=e40]:
+              - columnheader "Agent" [ref=e41]
+              - columnheader "Fee APR" [ref=e42]
+              - columnheader "Max drawdown incl. IL" [ref=e43]
+              - columnheader "Rebalances / 30d" [ref=e44]
+              - columnheader "Time in range" [ref=e45]
+              - columnheader "Median trigger→tx" [ref=e46]
+              - columnheader "TVL managed" [ref=e47]
+          - rowgroup [ref=e48]:
+            - row [ref=e49]:
+              - 'rowheader "Meridian LP Keeper 0.00 No payment-backed reviews yet, so this score is the neutral prior. RebalancingPancakeswap V30 payment-backed reviews Meridian LP Keeper performance over the last 30d: no data yet Fee APR 0.0% Max drawdown incl. IL −0.0% Rebalances / 30d 0 Time in range 0% Median trigger→tx 0ms TVL managed $0 Curated listing" [ref=e50]':
+                - generic [ref=e51]:
+                  - generic [ref=e52]:
+                    - link "Meridian LP Keeper" [ref=e53] [cursor=pointer]:
+                      - /url: /agent/900000000
+                    - generic "No payment-backed reviews yet, so this score is the neutral prior." [ref=e54]: "0.00"
+                  - paragraph [ref=e68]:
+                    - text: Rebalancing · Pancakeswap V3 ·
+                    - generic [ref=e69]: 0 payment-backed reviews
+                  - 'img "Meridian LP Keeper performance over the last 30d: no data yet" [ref=e70]'
+                  - generic [ref=e72]:
+                    - generic [ref=e73]:
+                      - term [ref=e74]: Fee APR
+                      - definition [ref=e75]: 0.0%
+                    - generic [ref=e76]:
+                      - term [ref=e77]: Max drawdown incl. IL
+                      - definition [ref=e78]: −0.0%
+                    - generic [ref=e79]:
+                      - term [ref=e80]: Rebalances / 30d
+                      - definition [ref=e81]: "0"
+                    - generic [ref=e82]:
+                      - term [ref=e83]: Time in range
+                      - definition [ref=e84]: 0%
+                    - generic [ref=e85]:
+                      - term [ref=e86]: Median trigger→tx
+                      - definition [ref=e87]: 0ms
+                    - generic [ref=e88]:
+                      - term [ref=e89]: TVL managed
+                      - definition [ref=e90]: $0
+                  - generic "Operated by Khoros, running the rebalancing strategy in packages/core/src/strategies. Listed so this category is not empty while the ERC-8004 registry has no agents matching it." [ref=e92]: Curated listing
+      - region [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Grid trading" [level=2] [ref=e95]
+          - link "See all grid trading agents" [ref=e96] [cursor=pointer]:
+            - /url: /arena/grid-trading
+        - paragraph [ref=e97]: Places a ladder of buy and sell orders across a price range and works it automatically as the market moves. It captures the swing between levels without you having to hand-place forty orders or hand custody to an exchange.
+        - table [ref=e99]:
+          - caption [ref=e100]: Agents ranked by trust score, with six performance metrics each.
+          - rowgroup [ref=e101]:
+            - row [ref=e102]:
+              - columnheader "Agent" [ref=e103]
+              - columnheader "Grid profit" [ref=e104]
+              - columnheader "Max drawdown" [ref=e105]
+              - columnheader "Filled orders / 30d" [ref=e106]
+              - columnheader "Grid capture rate" [ref=e107]
+              - columnheader "Median trigger→tx" [ref=e108]
+              - columnheader "TVL managed" [ref=e109]
+          - rowgroup [ref=e110]:
+            - row [ref=e111]:
+              - 'rowheader "Cadence Grid 0.00 No payment-backed reviews yet, so this score is the neutral prior. Grid tradingPancakeswap V30 payment-backed reviews Cadence Grid performance over the last 30d: no data yet Grid profit 0.0% Max drawdown −0.0% Filled orders / 30d 0 Grid capture rate 0% Median trigger→tx 0ms TVL managed $0 Curated listing" [ref=e112]':
+                - generic [ref=e113]:
+                  - generic [ref=e114]:
+                    - link "Cadence Grid" [ref=e115] [cursor=pointer]:
+                      - /url: /agent/900000001
+                    - generic "No payment-backed reviews yet, so this score is the neutral prior." [ref=e116]: "0.00"
+                  - paragraph [ref=e130]:
+                    - text: Grid trading · Pancakeswap V3 ·
+                    - generic [ref=e131]: 0 payment-backed reviews
+                  - 'img "Cadence Grid performance over the last 30d: no data yet" [ref=e132]'
+                  - generic [ref=e134]:
+                    - generic [ref=e135]:
+                      - term [ref=e136]: Grid profit
+                      - definition [ref=e137]: 0.0%
+                    - generic [ref=e138]:
+                      - term [ref=e139]: Max drawdown
+                      - definition [ref=e140]: −0.0%
+                    - generic [ref=e141]:
+                      - term [ref=e142]: Filled orders / 30d
+                      - definition [ref=e143]: "0"
+                    - generic [ref=e144]:
+                      - term [ref=e145]: Grid capture rate
+                      - definition [ref=e146]: 0%
+                    - generic [ref=e147]:
+                      - term [ref=e148]: Median trigger→tx
+                      - definition [ref=e149]: 0ms
+                    - generic [ref=e150]:
+                      - term [ref=e151]: TVL managed
+                      - definition [ref=e152]: $0
+                  - generic "Operated by Khoros, running the grid trading strategy in packages/core/src/strategies. Listed so this category is not empty while the ERC-8004 registry has no agents matching it." [ref=e154]: Curated listing
+      - region [ref=e155]:
+        - generic [ref=e156]:
+          - heading "Yield optimisation" [level=2] [ref=e157]
+          - link "See all yield optimisation agents" [ref=e158] [cursor=pointer]:
+            - /url: /arena/yield-optimisation
+        - paragraph [ref=e159]: Moves idle stablecoins to wherever they earn the most across Venus, Lista and PancakeSwap, and moves them again when that changes. It only acts when the extra yield actually pays for the gas it costs to move.
+        - table [ref=e161]:
+          - caption [ref=e162]: Agents ranked by trust score, with six performance metrics each.
+          - rowgroup [ref=e163]:
+            - row [ref=e164]:
+              - columnheader "Agent" [ref=e165]
+              - columnheader "Net APY delta" [ref=e166]
+              - columnheader "Max drawdown" [ref=e167]
+              - columnheader "Migrations / 30d" [ref=e168]
+              - columnheader "Time at best APY" [ref=e169]
+              - columnheader "Median trigger→tx" [ref=e170]
+              - columnheader "TVL managed" [ref=e171]
+          - rowgroup [ref=e172]:
+            - row [ref=e173]:
+              - 'rowheader "Threnody Yield Router 0.00 No payment-backed reviews yet, so this score is the neutral prior. Yield optimisationVenus, Lista, Pancakeswap V3, Aave V30 payment-backed reviews Threnody Yield Router performance over the last 30d: no data yet Net APY delta 0.0% Max drawdown −0.0% Migrations / 30d 0 Time at best APY 0% Median trigger→tx 0ms TVL managed $0 Curated listing" [ref=e174]':
+                - generic [ref=e175]:
+                  - generic [ref=e176]:
+                    - link "Threnody Yield Router" [ref=e177] [cursor=pointer]:
+                      - /url: /agent/900000002
+                    - generic "No payment-backed reviews yet, so this score is the neutral prior." [ref=e178]: "0.00"
+                  - paragraph [ref=e192]:
+                    - text: Yield optimisation · Venus, Lista, Pancakeswap V3, Aave V3 ·
+                    - generic [ref=e193]: 0 payment-backed reviews
+                  - 'img "Threnody Yield Router performance over the last 30d: no data yet" [ref=e194]'
+                  - generic [ref=e196]:
+                    - generic [ref=e197]:
+                      - term [ref=e198]: Net APY delta
+                      - definition [ref=e199]: 0.0%
+                    - generic [ref=e200]:
+                      - term [ref=e201]: Max drawdown
+                      - definition [ref=e202]: −0.0%
+                    - generic [ref=e203]:
+                      - term [ref=e204]: Migrations / 30d
+                      - definition [ref=e205]: "0"
+                    - generic [ref=e206]:
+                      - term [ref=e207]: Time at best APY
+                      - definition [ref=e208]: 0%
+                    - generic [ref=e209]:
+                      - term [ref=e210]: Median trigger→tx
+                      - definition [ref=e211]: 0ms
+                    - generic [ref=e212]:
+                      - term [ref=e213]: TVL managed
+                      - definition [ref=e214]: $0
+                  - generic "Operated by Khoros, running the yield optimisation strategy in packages/core/src/strategies. Listed so this category is not empty while the ERC-8004 registry has no agents matching it." [ref=e216]: Curated listing
+      - region [ref=e217]:
+        - generic [ref=e218]:
+          - heading "Health factor monitoring" [level=2] [ref=e219]
+          - link "See all health factor monitoring agents" [ref=e220] [cursor=pointer]:
+            - /url: /arena/health-factor
+        - paragraph [ref=e221]: Watches your Venus or Aave borrow position and acts before it can be liquidated, by topping up collateral or paying down debt. Liquidation costs 5–15% of your collateral, so preventing one is worth far more than reacting to it.
+        - table [ref=e223]:
+          - caption [ref=e224]: Agents ranked by trust score, with six performance metrics each.
+          - rowgroup [ref=e225]:
+            - row [ref=e226]:
+              - columnheader "Agent" [ref=e227]
+              - columnheader "Penalties avoided" [ref=e228]
+              - columnheader "Lowest HF reached" [ref=e229]
+              - columnheader "Interventions / 30d" [ref=e230]
+              - columnheader "Interventions before HF 1.0" [ref=e231]
+              - columnheader "Median trigger→tx" [ref=e232]
+              - columnheader "Debt protected" [ref=e233]
+          - rowgroup [ref=e234]:
+            - row [ref=e235]:
+              - 'rowheader "Bastion Health Guard 0.00 No payment-backed reviews yet, so this score is the neutral prior. Health factor monitoringVenus, Aave V3, Pancakeswap V30 payment-backed reviews Bastion Health Guard performance over the last 30d: no data yet Penalties avoided $0 Lowest HF reached −0.0% Interventions / 30d 0 Interventions before HF 1.0 0% Median trigger→tx 0ms Debt protected $0 Curated listing" [ref=e236]':
+                - generic [ref=e237]:
+                  - generic [ref=e238]:
+                    - link "Bastion Health Guard" [ref=e239] [cursor=pointer]:
+                      - /url: /agent/900000003
+                    - generic "No payment-backed reviews yet, so this score is the neutral prior." [ref=e240]: "0.00"
+                  - paragraph [ref=e254]:
+                    - text: Health factor monitoring · Venus, Aave V3, Pancakeswap V3 ·
+                    - generic [ref=e255]: 0 payment-backed reviews
+                  - 'img "Bastion Health Guard performance over the last 30d: no data yet" [ref=e256]'
+                  - generic [ref=e258]:
+                    - generic [ref=e259]:
+                      - term [ref=e260]: Penalties avoided
+                      - definition [ref=e261]: $0
+                    - generic [ref=e262]:
+                      - term [ref=e263]: Lowest HF reached
+                      - definition [ref=e264]: −0.0%
+                    - generic [ref=e265]:
+                      - term [ref=e266]: Interventions / 30d
+                      - definition [ref=e267]: "0"
+                    - generic [ref=e268]:
+                      - term [ref=e269]: Interventions before HF 1.0
+                      - definition [ref=e270]: 0%
+                    - generic [ref=e271]:
+                      - term [ref=e272]: Median trigger→tx
+                      - definition [ref=e273]: 0ms
+                    - generic [ref=e274]:
+                      - term [ref=e275]: Debt protected
+                      - definition [ref=e276]: $0
+                  - generic "Operated by Khoros, running the health factor monitoring strategy in packages/core/src/strategies. Listed so this category is not empty while the ERC-8004 registry has no agents matching it." [ref=e278]: Curated listing
+  - contentinfo [ref=e279]:
+    - paragraph [ref=e281]: Agent identity and reputation are read from BNB Smart Chain mainnet. All execution — sessions, jobs and agent transactions — runs on BSC Testnet (chain 97), so no real capital is at risk. Every figure on this site comes from a real chain read or a recorded run.
+  - alert [ref=e282]

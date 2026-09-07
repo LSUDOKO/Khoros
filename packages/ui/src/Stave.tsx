@@ -148,7 +148,14 @@ export function Stave({
             />
           )}
 
-          {/* Row 4 — the six slots, fixed order, tabular */}
+          {/* Row 4 — the six slots, fixed order, tabular.
+
+              With no observations the slots render as em-dashes, not zeros.
+              A "0.0%" fee APR and a "$0" TVL read as measurements of a bad
+              agent; the truth is that nothing has been measured at all, and
+              CLAUDE.md rule 5 forbids presenting the second as the first. The
+              slots still render so the row keeps its shape and the columns
+              stay aligned across agents. */}
           <dl className="khoros-stave-metrics">
             {METRIC_SLOTS.map((slot) => {
               const { value, label, negative } = formatSlot(
@@ -156,19 +163,30 @@ export function Stave({
                 performance,
                 definition,
               );
+              const measured = performance.sampleSize > 0;
               return (
                 <div key={slot} className="khoros-metric">
                   <dt className="khoros-label">{label}</dt>
                   <dd
                     className="khoros-data"
-                    data-negative={negative ? "true" : undefined}
+                    data-negative={measured && negative ? "true" : undefined}
+                    data-unmeasured={measured ? undefined : "true"}
+                    title={measured ? undefined : "No measured history yet"}
                   >
-                    {value}
+                    {measured ? value : "—"}
                   </dd>
                 </div>
               );
             })}
           </dl>
+
+          {/* Said once, in words, rather than implied six times by zeros. */}
+          {performance.sampleSize === 0 && (
+            <p className="khoros-label khoros-stave-sample">
+              No measured history yet — this agent has not run an engagement
+              through Khoros.
+            </p>
+          )}
 
           {/* Sample size is shown whenever it is thin. An n=3 figure must not
               carry the authority of an n=300 one. */}

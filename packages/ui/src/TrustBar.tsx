@@ -27,15 +27,22 @@ export function TrustBar({
   const filled = Math.round(Math.max(0, Math.min(1, score)) * segments);
   const ghost = Math.round(Math.max(0, Math.min(1, high)) * segments);
 
-  const description =
-    trust.reviewsCounted === 0
-      ? "No payment-backed reviews yet, so this score is the neutral prior."
-      : `Trust score ${score.toFixed(2)}. 95% confidence interval ${low.toFixed(2)} to ${high.toFixed(2)}, from ${trust.reviewsCounted} payment-backed reviews.`;
+  // With no payment-backed reviews there is no earned score — only the prior.
+  // Rendering "0.00" would read as a measured verdict on the agent, which is
+  // the opposite of what an absence of evidence means.
+  const unrated = trust.reviewsCounted === 0;
+
+  const description = unrated
+    ? "Not yet rated. No payment-backed reviews stand behind this agent, so it sits at the neutral prior rather than having earned a score."
+    : `Trust score ${score.toFixed(2)}. 95% confidence interval ${low.toFixed(2)} to ${high.toFixed(2)}, from ${trust.reviewsCounted} payment-backed reviews.`;
 
   return (
     <span className="khoros-trustbar" title={description}>
-      <span className="khoros-data khoros-trustbar-value">
-        {score.toFixed(2)}
+      <span
+        className="khoros-data khoros-trustbar-value"
+        data-unrated={unrated ? "true" : undefined}
+      >
+        {unrated ? "Unrated" : score.toFixed(2)}
       </span>
       <span className="khoros-trustbar-track" aria-hidden="true">
         {Array.from({ length: segments }, (_, i) => (

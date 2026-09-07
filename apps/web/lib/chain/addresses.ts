@@ -50,6 +50,31 @@ export const TESTNET_TARGETS: Record<string, Address> = {
   PANCAKE_V3_SWAP_ROUTER: "0x9a489505a00cE272eAa5e07Dba6491314CaE3796",
   PANCAKE_V3_QUOTER: "0xbC203d7f83677c7ed3F7acEc959963E7F4ECC5C2",
   PANCAKE_V3_FACTORY: "0x0BFbCF9fa4f9C56B0F40a671Ad40E0805A091865",
+
+  // Venus on BSC Testnet. The Comptroller answers isComptroller() = true, and
+  // the vTokens below were read out of its own getAllMarkets() list (49
+  // markets) rather than copied from a blog post — so they are the markets
+  // this deployment actually recognises.
+  VENUS_COMPTROLLER: "0x94d1820b2D1c7c7452A163983Dc888CEC546b77D",
+  VENUS_VTOKEN: "0xb7526572FFE56AB9D7489838Bf2E18e3323b441A", // vUSDT
+  VENUS_VBNB: "0x2E7222e51c0f6e98610A1543Aa3836E092CDe62c",
+};
+
+/**
+ * Contracts a category needs that are NOT deployed on BSC Testnet.
+ *
+ * Aave V3 has no BSC Testnet deployment we could verify — the mainnet Pool
+ * address holds no code on chain 97. Rather than point a session scope at an
+ * address with nothing behind it (which would let a grant succeed while the
+ * agent could never act), the target is declared missing here and the affected
+ * category drops it from its scope, with the UI saying which protocol is
+ * unavailable and why.
+ */
+export const TESTNET_UNAVAILABLE: Record<string, string> = {
+  AAVE_V3_POOL:
+    "Aave V3 has no verified BSC Testnet deployment, so on testnet this agent works with Venus and PancakeSwap.",
+  LISTA_STAKING:
+    "Lista has no verified BSC Testnet deployment — its mainnet staking manager holds no code on chain 97 — so on testnet this agent routes between Venus and PancakeSwap.",
 };
 
 /** Tokens, with the decimals every amount must carry alongside it. */

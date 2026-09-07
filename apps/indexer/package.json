@@ -6,7 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "migrate": "node src/migrate.mjs"
+    "migrate": "node src/migrate.mjs",
+    "cycle": "node --experimental-strip-types src/run-cycle.mjs"
   },
   "dependencies": {
     "@khoros/core": "workspace:*",

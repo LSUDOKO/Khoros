@@ -441,3 +441,18 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/*
+  An unmeasured metric is an em-dash, never a zero. A "0.0%" return and a "$0"
+  TVL read as measurements of a poor agent; the truth is that nothing has been
+  measured. Dimmed so the eye skips them and lands on real figures.
+*/
+.khoros-metric dd[data-unmeasured="true"],
+.khoros-trustbar-value[data-unrated="true"] {
+  color: var(--ink-soft);
+}
+
+.khoros-trustbar-value[data-unrated="true"] {
+  font-size: var(--text-label);
+  font-style: italic;
+}

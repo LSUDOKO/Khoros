@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- The stave: a hairline rule with a performance curve drawn on it.
+       The mark is the product's central metaphor, not a decorative logo. -->
+  <rect width="32" height="32" fill="#E8EAE4"/>
+  <line x1="3" y1="16" x2="29" y2="16" stroke="#C6CBC2" stroke-width="1.5"/>
+  <path d="M3 16 L9 9 L15 20 L21 12 L29 16"
+        fill="none" stroke="#1F5F58" stroke-width="2"
+        stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,102 @@
+- generic [active] [ref=f2e1]:
+  - link "Skip to content" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - link "Khoros" [ref=f2e5] [cursor=pointer]:
+        - /url: /
+      - navigation "Primary" [ref=f2e6]:
+        - list [ref=f2e7]:
+          - listitem [ref=f2e8]:
+            - link "Arena" [ref=f2e9] [cursor=pointer]:
+              - /url: /arena
+          - listitem [ref=f2e10]:
+            - link "Benchmark" [ref=f2e11] [cursor=pointer]:
+              - /url: /benchmark
+          - listitem [ref=f2e12]:
+            - link "How trust works" [ref=f2e13] [cursor=pointer]:
+              - /url: /verify
+          - listitem [ref=f2e14]:
+            - link "Dashboard" [ref=f2e15] [cursor=pointer]:
+              - /url: /dashboard
+  - main [ref=f2e16]:
+    - generic [ref=f2e17]:
+      - generic [ref=f2e18]:
+        - heading "Rebalancing" [level=1] [ref=f2e19]
+        - paragraph [ref=f2e20]: Keeps a concentrated liquidity position earning fees by moving the price range when the market drifts away from it. When your position goes out of range it stops earning entirely, and this agent puts it back to work without you watching a chart.
+      - generic [ref=f2e21]:
+        - generic [ref=f2e22]:
+          - generic [ref=f2e23]:
+            - radiogroup "Review filtering" [ref=f2e24]:
+              - radio "Verified" [checked] [ref=f2e25] [cursor=pointer]
+              - radio "Unfiltered" [ref=f2e26] [cursor=pointer]
+            - paragraph [ref=f2e27]:
+              - text: Ranking uses
+              - generic [ref=f2e28]: 0 payment-backed reviews
+              - text: .
+              - link "How this works" [ref=f2e29] [cursor=pointer]:
+                - /url: /verify
+          - generic [ref=f2e30]: Updated 4 minutes ago
+        - table [ref=f2e33]:
+          - caption [ref=f2e34]: Agents ranked by trust score, with six performance metrics each.
+          - rowgroup [ref=f2e35]:
+            - row [ref=f2e36]:
+              - columnheader "Agent" [ref=f2e37]
+              - columnheader "Fee APR" [ref=f2e38]
+              - columnheader "Max drawdown incl. IL" [ref=f2e39]
+              - columnheader "Rebalances / 30d" [ref=f2e40]
+              - columnheader "Time in range" [ref=f2e41]
+              - columnheader "Median trigger→tx" [ref=f2e42]
+              - columnheader "TVL managed" [ref=f2e43]
+          - rowgroup [ref=f2e44]:
+            - row [ref=f2e45]:
+              - 'rowheader "Meridian LP Keeper Unrated Not yet rated. No payment-backed reviews stand behind this agent, so it sits at the neutral prior rather than having earned a score. RebalancingPancakeswap V30 payment-backed reviews Meridian LP Keeper performance over the last 30d: no data yet Fee APR — Max drawdown incl. IL — Rebalances / 30d — Time in range — Median trigger→tx — TVL managed — No measured history yet — this agent has not run an engagement through Khoros. Curated listing" [ref=f2e46]':
+                - generic [ref=f2e47]:
+                  - generic [ref=f2e48]:
+                    - link "Meridian LP Keeper" [ref=f2e49] [cursor=pointer]:
+                      - /url: /agent/900000000
+                    - generic "Not yet rated. No payment-backed reviews stand behind this agent, so it sits at the neutral prior rather than having earned a score." [ref=f2e50]: Unrated
+                  - paragraph [ref=f2e64]:
+                    - text: Rebalancing · Pancakeswap V3 ·
+                    - generic [ref=f2e65]: 0 payment-backed reviews
+                  - 'img "Meridian LP Keeper performance over the last 30d: no data yet" [ref=f2e66]'
+                  - generic [ref=f2e68]:
+                    - generic [ref=f2e69]:
+                      - term [ref=f2e70]: Fee APR
+                      - definition [ref=f2e71]: —
+                    - generic [ref=f2e72]:
+                      - term [ref=f2e73]: Max drawdown incl. IL
+                      - definition [ref=f2e74]: —
+                    - generic [ref=f2e75]:
+                      - term [ref=f2e76]: Rebalances / 30d
+                      - definition [ref=f2e77]: —
+                    - generic [ref=f2e78]:
+                      - term [ref=f2e79]: Time in range
+                      - definition [ref=f2e80]: —
+                    - generic [ref=f2e81]:
+                      - term [ref=f2e82]: Median trigger→tx
+                      - definition [ref=f2e83]: —
+                    - generic [ref=f2e84]:
+                      - term [ref=f2e85]: TVL managed
+                      - definition [ref=f2e86]: —
+                  - paragraph [ref=f2e87]: No measured history yet — this agent has not run an engagement through Khoros.
+                  - generic "Operated by Khoros, running the rebalancing strategy in packages/core/src/strategies. Listed so this category is not empty while the ERC-8004 registry has no agents matching it." [ref=f2e89]: Curated listing
+      - generic [ref=f2e90]:
+        - heading "How these agents work" [level=2] [ref=f2e91]
+        - generic [ref=f2e92]:
+          - paragraph [ref=f2e93]: PancakeSwap V3 concentrates liquidity into a tick interval. Inside the range capital earns fees efficiently; outside it capital efficiency drops to zero while the position stays fully exposed to price movement. Compounding this is loss-versus-rebalancing, where arbitrageurs systematically extract value from stale positions. The agent recentres the range on the current price with width scaled to realised volatility, then restores the inventory ratio so both sides of the pair are working.
+          - heading "When it acts" [level=3] [ref=f2e94]
+          - paragraph [ref=f2e95]: Rebalance when expected fee gain from a recentred range exceeds gas plus slippage plus LVR over a forward horizon. Price is modelled as jump-diffusion so a volatility spike does not trigger a rebalance that mean reversion would immediately undo. A hard secondary trigger fires whenever price crosses the boundary tick, regardless of the economic calculation.
+          - heading "What it is never allowed to do" [level=3] [ref=f2e96]
+          - list [ref=f2e97]:
+            - listitem [ref=f2e98]: The agent can never move your tokens to another address.
+            - listitem [ref=f2e99]: The agent cannot approve a spender outside the allowlist.
+          - heading "Checked before every action" [level=3] [ref=f2e100]
+          - list [ref=f2e101]:
+            - listitem [ref=f2e102]: Swap slippage must stay at or below 50 bps.
+            - listitem [ref=f2e103]: New range width must be at least 2%, blocking dust-range griefing.
+            - listitem [ref=f2e104]: The resulting position must contain the current price.
+            - listitem [ref=f2e105]: No net token outflow from the account.
+  - contentinfo [ref=f2e106]:
+    - paragraph [ref=f2e108]: Agent identity and reputation are read from BNB Smart Chain mainnet. All execution — sessions, jobs and agent transactions — runs on BSC Testnet (chain 97), so no real capital is at risk. Every figure on this site comes from a real chain read or a recorded run.
+  - alert [ref=f2e109]

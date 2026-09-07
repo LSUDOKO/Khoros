@@ -35,6 +35,11 @@ export type TargetRegistry = Record<string, Address>;
 export type BuildScopeInput = {
   category: AgentCategory;
   targets: TargetRegistry;
+  /**
+   * Targets known to be undeployed on this chain, with the reason. These are
+   * dropped from the scope and surfaced to the user, rather than throwing.
+   */
+  unavailable?: Record<string, string>;
   /** The token the agent may spend, and how much per period. */
   spendToken: Address;
   spendLimit: bigint;
@@ -58,20 +63,43 @@ export function buildSessionScope(input: BuildScopeInput): SessionScope {
   const lifetime = input.expirySeconds ?? definition.scope.defaultExpirySeconds;
 
   const calls: SessionScope["calls"] = [];
+  const omitted: { key: string; reason: string }[] = [];
+
   for (const target of definition.scope.targets) {
     const address = input.targets[target.key];
+
     if (!address) {
-      // A missing address must not silently produce a narrower scope than the
-      // permissions preview describes.
+      // A protocol with no deployment on this chain is a known, explainable
+      // absence: drop it and say so. Pointing a scope at an address with no
+      // code behind it would let the grant succeed while the agent could never
+      // act — a silent failure rather than a loud one.
+      const known = input.unavailable?.[target.key];
+      if (known) {
+        omitted.push({ key: target.key, reason: known });
+        continue;
+      }
+
+      // An unexplained missing address is a configuration error, and must not
+      // silently produce a narrower scope than the preview describes.
       throw new Error(
         `No address configured for ${target.key} — cannot build a ${input.category} session scope. ` +
-          `Set it in the environment before granting.`,
+          `Set it in the environment, or declare why it is unavailable on this chain.`,
       );
     }
+
     calls.push({ to: address, label: target.label });
   }
 
-  return {
+  // Every category must retain at least one callable target, or the session
+  // would grant nothing at all.
+  if (calls.length === 0) {
+    throw new Error(
+      `No contracts for ${input.category} are deployed on this chain, so there is ` +
+        `nothing a session could permit.`,
+    );
+  }
+
+  const scope: SessionScope = {
     calls,
     selectors: definition.scope.selectors.map((s) => ({ sig: s.sig, name: s.name })),
     spend: [
@@ -83,6 +111,24 @@ export function buildSessionScope(input: BuildScopeInput): SessionScope {
     ],
     expiry: now + BigInt(lifetime),
   };
+
+  lastOmissions.set(scope, omitted);
+  return scope;
+}
+
+/**
+ * Targets dropped from a scope because they are not deployed on this chain.
+ *
+ * Kept beside the scope rather than inside it, because SessionScope mirrors
+ * what gets registered on-chain and must not grow fields the chain never sees.
+ * A WeakMap so it cannot leak.
+ */
+const lastOmissions = new WeakMap<SessionScope, { key: string; reason: string }[]>();
+
+export function scopeOmissions(
+  scope: SessionScope,
+): { key: string; reason: string }[] {
+  return lastOmissions.get(scope) ?? [];
 }
 
 // ---------------------------------------------------------------------------

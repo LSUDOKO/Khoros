@@ -43,6 +43,11 @@ const SETS = [
       PANCAKE_V3_FACTORY: "0x0BFbCF9fa4f9C56B0F40a671Ad40E0805A091865",
       USDT: "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd",
       WBNB: "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+      // Venus on testnet. The vTokens were read out of the Comptroller's own
+      // getAllMarkets() rather than copied from documentation.
+      VENUS_COMPTROLLER: "0x94d1820b2D1c7c7452A163983Dc888CEC546b77D",
+      VENUS_VTOKEN: "0xb7526572FFE56AB9D7489838Bf2E18e3323b441A",
+      VENUS_VBNB: "0x2E7222e51c0f6e98610A1543Aa3836E092CDe62c",
       // The ERC-8183 stack, from the SDK's own deployment registry.
       ERC8183_COMMERCE: "0xa206c0517B6371C6638CD9e4a42Cc9f02A33B0DE",
       ERC8183_ROUTER: "0xD7d36D66d2F1B608A0F943f722D27e3744f66F25",

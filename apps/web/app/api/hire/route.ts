@@ -21,6 +21,7 @@ import {
   EXECUTION_TOKEN,
   EXECUTION_TOKEN_DECIMALS,
   TESTNET_TARGETS,
+  TESTNET_UNAVAILABLE,
 } from "@/lib/chain/addresses";
 
 type HireRequest = {
@@ -93,6 +94,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     scope = buildSessionScope({
       category: body.category,
       targets: TESTNET_TARGETS,
+      unavailable: TESTNET_UNAVAILABLE,
       spendToken: EXECUTION_TOKEN,
       spendLimit: toBaseUnits(body.dailyCap, EXECUTION_TOKEN_DECIMALS),
       spendPeriodSeconds: 86_400,

@@ -22,7 +22,11 @@ import { InterventionLog } from "@/components/InterventionLog";
 import { MetricGrid } from "@/components/MetricGrid";
 import { ReviewList } from "@/components/ReviewList";
 import { buildSessionScope } from "@/lib/altana/sessions";
-import { PREVIEW_TARGETS, PREVIEW_TOKEN, TOKEN_META } from "@/lib/chain/addresses";
+import {
+  PREVIEW_TARGETS,
+  PREVIEW_TOKEN,
+  TOKEN_META,
+} from "@/lib/chain/addresses";
 import { getAgent, getAgentInterventions, getAgentReviews } from "@/lib/db";
 
 export const revalidate = 60;
