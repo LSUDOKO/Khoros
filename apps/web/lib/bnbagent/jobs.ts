@@ -22,7 +22,7 @@
 
 import type { AgentCategory, Address, Hash } from "@khoros/core";
 
-import { EXECUTION_CHAIN_ID, getAltanaClient } from "../altana/sessions";
+import { EXECUTION_CHAIN_ID } from "../altana/sessions";
 
 export type JobState =
   | "open"
