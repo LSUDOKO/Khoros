@@ -1,8 +1,12 @@
+"use client";
+
 /**
  * The remaining primitives from docs/08-DESIGN_SYSTEM.md's component list.
  * Deliberately short — the design system is a small set of parts used
  * consistently, not a large library.
  */
+
+import { useEffect, useState } from "react";
 
 import type { TelemetryEvent } from "@khoros/core";
 
@@ -150,6 +154,16 @@ export function TelemetryFeed({
 // Freshness — how current the data is
 // ---------------------------------------------------------------------------
 
+/**
+ * How current the data is.
+ *
+ * Relative time is computed CLIENT-SIDE only. Rendering it during SSR compares
+ * the server's clock at build/request time against the browser's at hydration,
+ * which differed by minutes in practice and produced a React hydration
+ * mismatch — Next then discarded the server HTML and re-rendered the whole
+ * root on the client. The first paint shows an absolute timestamp, which is
+ * stable on both sides, and it becomes relative once mounted.
+ */
 export function FreshnessBadge({
   computedAt,
   now,
@@ -157,6 +171,23 @@ export function FreshnessBadge({
   computedAt: bigint;
   now?: bigint;
 }): React.ReactElement {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const absolute = new Date(Number(computedAt) * 1000).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (!mounted && now === undefined) {
+    // Deterministic on both server and client.
+    return (
+      <span className="khoros-label khoros-freshness">Updated {absolute}</span>
+    );
+  }
+
   const current = now ?? BigInt(Math.floor(Date.now() / 1000));
   const ageSeconds = Number(current - computedAt);
 
@@ -173,7 +204,11 @@ export function FreshnessBadge({
   const stale = ageSeconds > 3600;
 
   return (
-    <span className="khoros-label khoros-freshness" data-stale={stale ? "true" : undefined}>
+    <span
+      className="khoros-label khoros-freshness"
+      data-stale={stale ? "true" : undefined}
+      title={`Last computed ${absolute}`}
+    >
       {text}
       {stale ? " — the indexer may be behind" : ""}
     </span>
