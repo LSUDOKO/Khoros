@@ -571,3 +571,11 @@ fieldset.field legend {
 .bench-bar[data-branch="manual"] {
   background: var(--madder);
 }
+
+/* A curated listing is always labelled, never passed off as discovered. */
+.seeded-tag {
+  border: 1px solid var(--brass);
+  color: var(--brass);
+  padding: 1px 6px;
+  white-space: nowrap;
+}

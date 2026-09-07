@@ -17,10 +17,12 @@
  * either way — the animation only shows WHICH agents moved.
  */
 
-import type { AgentCategory, AgentRow, PruningSummary } from "@khoros/core";
+import type { AgentCategory, PruningSummary } from "@khoros/core";
 import { categoryDefinition } from "@khoros/core";
 import { EmptyState, FreshnessBadge, PruneToggle } from "@khoros/ui";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+
+import type { SeededAgentRow } from "@/lib/db";
 
 import { StaveList } from "./StaveList";
 
@@ -35,8 +37,8 @@ export function CategoryArena({
   unavailable,
 }: {
   category: AgentCategory;
-  prunedAgents: AgentRow[];
-  unfilteredAgents: AgentRow[];
+  prunedAgents: SeededAgentRow[];
+  unfilteredAgents: SeededAgentRow[];
   summary: PruningSummary;
   freshness: bigint;
   unavailable: boolean;

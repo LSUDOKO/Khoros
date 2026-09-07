@@ -73,6 +73,8 @@ type RankingRow = {
   scale_usd: number | null;
   sample_size: number | null;
   sparkline: { t: number; v: number }[] | null;
+  seeded: boolean | null;
+  seed_note: string | null;
   freshness: string;
 };
 
@@ -118,7 +120,10 @@ function toPerformance(r: RankingRow): PerformanceMetrics {
   };
 }
 
-function toAgentRow(r: RankingRow): AgentRow {
+function toAgentRow(r: RankingRow): AgentRow & {
+  seeded: boolean;
+  seedNote?: string;
+} {
   return {
     agentId: BigInt(r.agent_id),
     name: r.name,
@@ -126,6 +131,10 @@ function toAgentRow(r: RankingRow): AgentRow {
     protocols: (r.protocols ?? []) as Protocol[],
     trust: toTrustScore(r),
     performance: toPerformance(r),
+    // Carried so every surface can label a curated entry. A seeded agent must
+    // never be mistaken for one discovered from the registry.
+    seeded: r.seeded ?? false,
+    seedNote: r.seed_note ?? undefined,
   };
 }
 
@@ -143,8 +152,10 @@ export type RankedQuery = {
   limit?: number;
 };
 
+export type SeededAgentRow = AgentRow & { seeded: boolean; seedNote?: string };
+
 export type RankedResult = {
-  agents: AgentRow[];
+  agents: SeededAgentRow[];
   freshness: bigint;
   /** True when no database is configured — the UI says so rather than faking rows. */
   unavailable: boolean;
@@ -269,6 +280,8 @@ export type AgentDetail = {
   supportedTrust: string[];
   trust: TrustScore;
   performance: PerformanceMetrics;
+  seeded: boolean;
+  seedNote?: string;
 };
 
 export async function getAgent(agentId: bigint): Promise<AgentDetail | undefined> {
@@ -294,6 +307,8 @@ export async function getAgent(agentId: bigint): Promise<AgentDetail | undefined
       supportedTrust: r.supported_trust ?? [],
       trust: toTrustScore(r),
       performance: toPerformance(r),
+      seeded: r.seeded ?? false,
+      seedNote: r.seed_note ?? undefined,
     };
   } catch (error) {
     console.error("[db] agent detail query failed", error);

@@ -107,6 +107,17 @@ export default async function AgentProfile({
         <p className="lede">{definition.label}</p>
       </div>
 
+      {agent.seeded ? (
+        <div className="notice" data-tone="verified">
+          <p>
+            <strong>This is a curated listing.</strong> Khoros added it by hand
+            so each category has agents to compare during evaluation, rather
+            than being discovered automatically from the registry.{" "}
+            {agent.seedNote ?? ""}
+          </p>
+        </div>
+      ) : null}
+
       <div className="profile-grid">
         {/* ---------------- Left: narrative and track record ---------------- */}
         <div className="profile-main">

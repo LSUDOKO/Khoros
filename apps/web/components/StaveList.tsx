@@ -6,9 +6,11 @@
  * users get a score."
  */
 
-import type { AgentCategoryOrUncategorised, AgentRow } from "@khoros/core";
+import type { AgentCategoryOrUncategorised } from "@khoros/core";
 import { CATEGORY_DEFINITIONS, METRIC_SLOTS, categoryDefinition } from "@khoros/core";
 import { Stave } from "@khoros/ui";
+
+import type { SeededAgentRow } from "@/lib/db";
 
 /**
  * An agent we could not classify still needs a definition to render its six
@@ -31,7 +33,7 @@ export function StaveList({
   agents,
   category,
 }: {
-  agents: AgentRow[];
+  agents: SeededAgentRow[];
   category?: AgentCategoryOrUncategorised;
 }): React.ReactElement {
   const labels = definitionFor(category ?? "uncategorised").metrics;
@@ -63,6 +65,13 @@ export function StaveList({
               performance={a.performance}
               paymentBackedReviews={a.trust.reviewsCounted}
               href={`/agent/${a.agentId}`}
+              trailing={
+                a.seeded ? (
+                  <span className="khoros-label seeded-tag" title={a.seedNote}>
+                    Curated listing
+                  </span>
+                ) : undefined
+              }
             />
           ))}
         </tbody>
