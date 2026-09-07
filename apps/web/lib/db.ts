@@ -10,12 +10,14 @@
 import { Pool } from "pg";
 
 import type {
+  Address,
   AgentCategory,
   AgentCategoryOrUncategorised,
   AgentRow,
   AgentSort,
   Protocol,
   TrustScore,
+  Hash,
   PerformanceMetrics,
 } from "@khoros/core";
 
@@ -248,5 +250,172 @@ export async function getPruningSummary(
   } catch (error) {
     console.error("[db] pruning summary failed", error);
     return { counted: 0, discarded: 0, reasons: {} };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Agent detail
+// ---------------------------------------------------------------------------
+
+/** Everything the profile page renders about one agent. */
+export type AgentDetail = {
+  agentId: bigint;
+  name: string;
+  description: string;
+  image?: string;
+  owner: Address;
+  category: AgentCategoryOrUncategorised;
+  protocols: Protocol[];
+  supportedTrust: string[];
+  trust: TrustScore;
+  performance: PerformanceMetrics;
+};
+
+export async function getAgent(agentId: bigint): Promise<AgentDetail | undefined> {
+  const db = getPool();
+  if (!db) return undefined;
+
+  try {
+    const { rows } = await db.query<RankingRow>(
+      `select * from agent_rankings where agent_id = $1`,
+      [agentId.toString()],
+    );
+    const r = rows[0];
+    if (!r) return undefined;
+
+    return {
+      agentId: BigInt(r.agent_id),
+      name: r.name,
+      description: r.description ?? "",
+      image: r.image ?? undefined,
+      owner: r.owner as Address,
+      category: r.category as AgentCategoryOrUncategorised,
+      protocols: (r.protocols ?? []) as Protocol[],
+      supportedTrust: r.supported_trust ?? [],
+      trust: toTrustScore(r),
+      performance: toPerformance(r),
+    };
+  } catch (error) {
+    console.error("[db] agent detail query failed", error);
+    return undefined;
+  }
+}
+
+/**
+ * One review as the profile renders it.
+ *
+ * docs/04: "each review row shows the settled payment that backs it. Reviews
+ * with no payment appear only in unfiltered mode, greyed, labelled 'no payment
+ * recorded'."
+ */
+export type ReviewRow = {
+  clientAddress: Address;
+  score: number;
+  settledPaymentUsd: number;
+  settlementJobId?: bigint;
+  weight: number;
+  discardReason?: string;
+  createdAt: bigint;
+};
+
+export async function getAgentReviews(
+  agentId: bigint,
+  opts: { pruned?: boolean; limit?: number } = {},
+): Promise<ReviewRow[]> {
+  const db = getPool();
+  if (!db) return [];
+
+  const pruned = opts.pruned ?? true;
+  const limit = Math.min(opts.limit ?? 20, 100);
+
+  try {
+    const { rows } = await db.query<{
+      client_address: string;
+      score: number;
+      settled_payment_usd: string;
+      settlement_job_id: string | null;
+      weight: number;
+      discard_reason: string | null;
+      created_at: string;
+    }>(
+      `select client_address, score, settled_payment_usd, settlement_job_id,
+              weight, discard_reason, created_at
+       from feedback
+       where agent_id = $1 ${pruned ? "and weight > 0" : ""}
+       order by weight desc, created_at desc
+       limit $2`,
+      [agentId.toString(), limit],
+    );
+
+    return rows.map((r) => ({
+      clientAddress: r.client_address as Address,
+      score: r.score,
+      settledPaymentUsd: Number(r.settled_payment_usd),
+      settlementJobId: r.settlement_job_id ? BigInt(r.settlement_job_id) : undefined,
+      weight: r.weight,
+      discardReason: r.discard_reason ?? undefined,
+      createdAt: BigInt(r.created_at),
+    }));
+  } catch (error) {
+    console.error("[db] reviews query failed", error);
+    return [];
+  }
+}
+
+/**
+ * The intervention log — every action this agent has taken, with its tx.
+ * Artifact 6 of the eleven, and required at equal depth for all four categories.
+ */
+export type InterventionRow = {
+  kind: "executed" | "blocked" | "triggered";
+  tx?: Hash;
+  at: bigint;
+  detail: string;
+  latencyMs?: number;
+};
+
+export async function getAgentInterventions(
+  agentId: bigint,
+  limit = 20,
+): Promise<InterventionRow[]> {
+  const db = getPool();
+  if (!db) return [];
+
+  try {
+    const { rows } = await db.query<{
+      kind: string;
+      payload: Record<string, unknown>;
+      at: string;
+    }>(
+      `select t.kind, t.payload, t.at
+       from telemetry t
+       join engagements e on e.id = t.engagement_id
+       where e.agent_id = $1
+       order by t.at desc
+       limit $2`,
+      [agentId.toString(), limit],
+    );
+
+    return rows.map((r) => {
+      const p = r.payload ?? {};
+      const kind = r.kind as InterventionRow["kind"];
+      const detail =
+        kind === "blocked"
+          ? `${String(p.reason ?? "Blocked")} — ${String(p.failedInvariant ?? "")}`
+          : kind === "triggered"
+            ? String(p.trigger ?? "Trigger observed")
+            : String(p.summary ?? "Action executed");
+
+      return {
+        kind,
+        tx: typeof p.tx === "string" ? (p.tx as Hash) : undefined,
+        at: BigInt(r.at),
+        detail,
+        latencyMs: typeof p.latencyMs === "number" ? p.latencyMs : undefined,
+      };
+    });
+  } catch (error) {
+    console.error("[db] interventions query failed", error);
+    return [];
   }
 }
