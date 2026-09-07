@@ -461,3 +461,70 @@ fieldset.field legend {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* --------------------------------------------------------------------------
+   Dashboard
+   -------------------------------------------------------------------------- */
+
+.engagement-stack {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rhythm) * 3);
+  padding-bottom: calc(var(--rhythm) * 4);
+}
+
+.engagement {
+  border-top: 1px solid var(--rule);
+  padding: calc(var(--rhythm) * 3) 0;
+}
+
+.engagement-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(var(--rhythm) * 2);
+  flex-wrap: wrap;
+  margin-bottom: calc(var(--rhythm) * 2);
+}
+
+.engagement-head a.khoros-agent-name {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.engagement-head a.khoros-agent-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.engagement-status[data-tone="live"] {
+  color: var(--verdigris);
+}
+
+.engagement-status[data-tone="risk"] {
+  color: var(--madder);
+}
+
+.engagement-permissions {
+  margin-bottom: calc(var(--rhythm) * 2);
+}
+
+.engagement-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--rhythm) * 2);
+  align-items: baseline;
+}
+
+.revoke-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm);
+  align-items: flex-end;
+}
+
+.revoke-error {
+  max-width: 40ch;
+  text-align: right;
+  margin: 0;
+}

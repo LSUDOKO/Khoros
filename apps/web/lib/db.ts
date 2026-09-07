@@ -419,3 +419,133 @@ export async function getAgentInterventions(
     return [];
   }
 }
+
+// ---------------------------------------------------------------------------
+// Engagements — the dashboard's read model
+// ---------------------------------------------------------------------------
+
+export type EngagementRow = {
+  id: string;
+  agentId: bigint;
+  agentName: string;
+  category: AgentCategoryOrUncategorised;
+  sessionKey?: Address;
+  sessionStatus?: string;
+  grantTx?: Hash;
+  revokeTx?: Hash;
+  keystoreRegistered: boolean;
+  expiry?: bigint;
+  scope?: unknown;
+  jobId?: bigint;
+  status: string;
+  createdAt: bigint;
+};
+
+export async function getEngagements(
+  userAddress?: string,
+): Promise<{ rows: EngagementRow[]; unavailable: boolean }> {
+  const db = getPool();
+  if (!db) return { rows: [], unavailable: true };
+
+  const params: unknown[] = [];
+  let where = "";
+  if (userAddress) {
+    params.push(userAddress.toLowerCase());
+    where = "where lower(e.user_address) = $1";
+  }
+
+  try {
+    const { rows } = await db.query<{
+      id: string;
+      agent_id: string;
+      agent_name: string | null;
+      category: string;
+      session_key: string | null;
+      session_status: string | null;
+      grant_tx: string | null;
+      revoke_tx: string | null;
+      keystore_registered: boolean | null;
+      expiry: string | null;
+      scope: unknown;
+      job_id: string | null;
+      status: string;
+      created_at: string;
+    }>(
+      `select e.id, e.agent_id, a.name as agent_name, e.category,
+              e.session_key, s.status as session_status, s.grant_tx, s.revoke_tx,
+              s.keystore_registered, s.expiry, s.scope,
+              e.job_id, e.status, e.created_at
+       from engagements e
+       left join sessions s on s.session_key = e.session_key
+       left join agents a on a.agent_id = e.agent_id
+       ${where}
+       order by e.created_at desc
+       limit 50`,
+      params,
+    );
+
+    return {
+      unavailable: false,
+      rows: rows.map((r) => ({
+        id: r.id,
+        agentId: BigInt(r.agent_id),
+        agentName: r.agent_name ?? `Agent #${r.agent_id}`,
+        category: r.category as AgentCategoryOrUncategorised,
+        sessionKey: (r.session_key as Address) ?? undefined,
+        sessionStatus: r.session_status ?? undefined,
+        grantTx: (r.grant_tx as Hash) ?? undefined,
+        revokeTx: (r.revoke_tx as Hash) ?? undefined,
+        keystoreRegistered: r.keystore_registered ?? false,
+        expiry: r.expiry ? BigInt(r.expiry) : undefined,
+        scope: r.scope,
+        jobId: r.job_id ? BigInt(r.job_id) : undefined,
+        status: r.status,
+        createdAt: BigInt(r.created_at),
+      })),
+    };
+  } catch (error) {
+    console.error("[db] engagements query failed", error);
+    return { rows: [], unavailable: true };
+  }
+}
+
+/** Telemetry for one engagement, newest first. */
+export async function getEngagementTelemetry(
+  engagementId: string,
+  limit = 50,
+): Promise<InterventionRow[]> {
+  const db = getPool();
+  if (!db) return [];
+
+  try {
+    const { rows } = await db.query<{
+      kind: string;
+      payload: Record<string, unknown>;
+      at: string;
+    }>(
+      `select kind, payload, at from telemetry
+       where engagement_id = $1 order by at desc limit $2`,
+      [engagementId, limit],
+    );
+
+    return rows.map((r) => {
+      const p = r.payload ?? {};
+      const kind = r.kind as InterventionRow["kind"];
+      return {
+        kind,
+        tx: typeof p.tx === "string" ? (p.tx as Hash) : undefined,
+        at: BigInt(r.at),
+        detail:
+          kind === "blocked"
+            ? `${String(p.reason ?? "Blocked")} — ${String(p.failedInvariant ?? "")}`
+            : kind === "triggered"
+              ? String(p.trigger ?? "Trigger observed")
+              : String(p.summary ?? "Action executed"),
+        latencyMs: typeof p.latencyMs === "number" ? p.latencyMs : undefined,
+      };
+    });
+  } catch (error) {
+    console.error("[db] telemetry query failed", error);
+    return [];
+  }
+}
