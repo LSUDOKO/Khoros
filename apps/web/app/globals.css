@@ -420,3 +420,44 @@ main {
     max-width: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Hire form
+   -------------------------------------------------------------------------- */
+
+fieldset.field {
+  border: 0;
+  padding: 0;
+  margin: 0 0 calc(var(--rhythm) * 2) 0;
+}
+
+fieldset.field legend {
+  padding: 0;
+  margin-bottom: var(--rhythm);
+}
+
+.checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--rhythm) * 2);
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-label);
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--verdigris);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
