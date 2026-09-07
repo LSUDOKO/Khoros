@@ -250,9 +250,10 @@
   cursor: pointer;
 }
 
+/* Label flips with the fill — see --on-verdigris in the app's globals. */
 .khoros-prune-option[data-active="true"] {
   background: var(--verdigris);
-  color: var(--paper);
+  color: var(--on-verdigris, var(--paper));
 }
 
 .khoros-prune-copy {

@@ -42,7 +42,7 @@ main {
   left: -9999px;
   top: 0;
   background: var(--verdigris);
-  color: var(--paper);
+  color: var(--on-verdigris);
   padding: var(--rhythm) calc(var(--rhythm) * 2);
   z-index: 100;
 }
@@ -143,13 +143,14 @@ main {
   color: var(--ink-soft);
 }
 
+/* Label colour follows --on-verdigris from the design tokens. */
 .btn-primary {
   font-family: var(--font-ui);
   font-size: var(--text-body);
   padding: calc(var(--rhythm) * 1.75) calc(var(--rhythm) * 3);
   min-height: 44px;
   background: var(--verdigris);
-  color: var(--paper);
+  color: var(--on-verdigris);
   border: 1px solid var(--verdigris);
   cursor: pointer;
 }
@@ -578,4 +579,31 @@ fieldset.field legend {
   color: var(--brass);
   padding: 1px 6px;
   white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Touch targets
+   --------------------------------------------------------------------------
+   docs/08 sets a 44px floor. Standalone controls — the site mark, the skip
+   link, section links, an agent name that is the row's primary action — get
+   real padded height. Links inside a sentence are left alone deliberately:
+   WCAG exempts inline text, and forcing 44px on a word mid-paragraph would
+   break the line rhythm the type scale exists to hold.
+*/
+
+.site-mark,
+.khoros-skip,
+.section-head a,
+.khoros-stave-name,
+.engagement-foot a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* The stave name sits in a flex row against the trust bar; keep it aligned. */
+.khoros-stave-head .khoros-stave-name {
+  align-items: baseline;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

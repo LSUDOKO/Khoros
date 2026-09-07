@@ -11,13 +11,24 @@
   --paper: #e8eae4; /* cool sage-grey ground, not cream */
   --paper-lift: #f1f2ee; /* raised surface: panels, hover */
   --ink: #182220; /* deep pine — text, staves */
-  --ink-soft: #6b7570; /* secondary text, axis labels */
+  --ink-soft: #5c655f; /* secondary text, axis labels — 4.5:1 on paper */
   --rule: #c6cbc2; /* hairlines, stave lines */
 
   /* Semantic accents */
   --verdigris: #1f5f58; /* act / live */
-  --brass: #a87c1f; /* verified / paid */
+  --brass: #7f5c10; /* verified / paid — 5.0:1 on paper */
   --madder: #8f2f2c; /* risk / stopped */
+
+  /*
+   * The label colour on a verdigris fill.
+   *
+   * Light mode's verdigris is dark, so a paper label reads at 6.1:1. Dark
+   * mode lifts the fill to clear 4.5:1 against the ink ground, which makes it
+   * too light for a paper label — that pairing measures 2.44:1. So the label
+   * flips to ink there, at 5.5:1. A token rather than a hardcoded colour, so
+   * every filled control follows the ground automatically.
+   */
+  --on-verdigris: var(--paper);
 
   /* Type */
   --font-display: "Spectral", Georgia, "Times New Roman", serif;
@@ -62,9 +73,10 @@
     --ink-soft: #9aa39e;
     --rule: #38443f;
 
-    --verdigris: #3f8279;
+    --verdigris: #55a399;
     --brass: #c99a3d;
-    --madder: #b8514d;
+    --madder: #d67e79;
+    --on-verdigris: #182220;
   }
 }
 
@@ -75,10 +87,24 @@
   --ink-soft: #9aa39e;
   --rule: #38443f;
 
-  --verdigris: #3f8279;
+  --verdigris: #55a399;
   --brass: #c99a3d;
-  --madder: #b8514d;
+  --madder: #d67e79;
+  --on-verdigris: #182220;
 }
+
+/*
+ * Contrast, measured rather than assumed.
+ *
+ * docs/08 sets a floor of 4.5:1 for body text and 3:1 for large text and UI
+ * boundaries. The palette as first written missed it in four places: brass on
+ * paper was 3.11:1 (and brass carries the payment-backed review counts, which
+ * is real information, not decoration), ink-soft was 3.93:1, and in dark mode
+ * verdigris and madder sat at 3.6:1 and 3.3:1.
+ *
+ * Every accent below now clears 4.5:1 against its own ground, with the hues
+ * kept where they were — aged brass, verdigris, madder.
+ */
 
 /* --------------------------------------------------------------------------
    Base
