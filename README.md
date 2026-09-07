@@ -119,7 +119,7 @@ Nothing here asks to be taken on trust.
 | Four categories really are equal | `pnpm --filter @khoros/core test` — 43 assertions compare prose depth, metric slots, scope manifests, constraints and knob counts across all four |
 | What the registry actually contains | `apps/indexer/src/sources/REGISTRY_FINDINGS.md` — measured, with the method to reproduce it |
 
-**236 tests** — 213 TypeScript, 23 Solidity. Strict TypeScript, no `any`.
+**259 tests** — 236 TypeScript, 23 Solidity. Strict TypeScript, no `any`.
 
 ---
 
